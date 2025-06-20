@@ -2,11 +2,13 @@ import React, { useEffect, useState } from "react";
 import NewsItem from "./NewsItem";
 import Spinner from "./Spinner";
 import InfiniteScroll from "react-infinite-scroll-component";
-import './NewsComponent.css'
+import './NewsComponent.css';
 
 const NewsComponent = (props) => {
   const capitalizeFirstLetter = (word) =>
     word.charAt(0).toUpperCase() + word.slice(1);
+
+  const backendUrl = process.env.REACT_APP_BACKEND_URL || "http://localhost:5000";
 
   const [articles, setArticles] = useState([]);
   const [totalResults, setTotalResults] = useState(0);
@@ -19,7 +21,7 @@ const NewsComponent = (props) => {
     props.setProgress(0);
     setLoading(true);
     try {
-      const url = `https://newsapi.org/v2/top-headlines?apiKey=${props.api}&q=${props.category}&page=1&pageSize=${props.pageSize}`;
+      const url = `${backendUrl}/api/news?category=${props.category}&page=1&pageSize=${props.pageSize}`;
       props.setProgress(40);
       const response = await fetch(url);
       const data = await response.json();
@@ -27,7 +29,7 @@ const NewsComponent = (props) => {
 
       setArticles(data.articles || []);
       setTotalResults(data.totalResults || 0);
-      setPage(2); // Reset to next page
+      setPage(2); // Prepare for next page
     } catch (error) {
       console.error("Failed to fetch news:", error);
       setArticles([]);
@@ -37,14 +39,9 @@ const NewsComponent = (props) => {
     props.setProgress(100);
   };
 
-  useEffect(() => {
-    update();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.category]); // reload when category changes
-
   const fetchMoreData = async () => {
     try {
-      const url = `https://newsapi.org/v2/top-headlines?apiKey=${props.api}&q=${props.category}&page=${page}&pageSize=${props.pageSize}`;
+const url = `${backendUrl}/api/news?category=${props.category}&page=${page}&pageSize=${props.pageSize}`;
       setPage(page + 1);
       const response = await fetch(url);
       const data = await response.json();
@@ -55,6 +52,11 @@ const NewsComponent = (props) => {
       console.error("Failed to fetch more news:", error);
     }
   };
+
+  useEffect(() => {
+    update();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.category]);
 
   return (
     <>
@@ -77,7 +79,7 @@ const NewsComponent = (props) => {
         {loading && <Spinner />}
 
         <InfiniteScroll
-          dataLength={articles ? articles.length : 0}
+          dataLength={articles.length}
           next={fetchMoreData}
           hasMore={articles.length < totalResults}
           loader={<Spinner />}

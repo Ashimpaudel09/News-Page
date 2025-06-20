@@ -5,9 +5,9 @@ import './Navbar.css';
 const categories = [
   { name: "General", path: "/" },
   { name: "Business", path: "/business" },
-  { name: "Cricket", path: "/cricket" },
-  { name: "Football", path: "/football" },
-  { name: "Fashion", path: "/fashion" },
+  { name: "Entertainment", path: "/entertainment" },
+  { name: "Sports", path: "/sports" },
+  { name: "Technology", path: "/technology" },
 ];
 
 const Navbar = () => {

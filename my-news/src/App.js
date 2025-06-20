@@ -17,18 +17,17 @@ const Layout = () => (
 );
 
 const App = () => {
-  const apiKey = process.env.REACT_APP_NEWS_API;
   const [progress, setProgress] = useState(0);
 
   const router = createBrowserRouter([
     {
       element: <Layout />,
       children: [
-        { path: "/", element: <NewsComponent api={apiKey} category="all" pageSize={6} setProgress={setProgress} /> },
-        { path: "/business", element: <NewsComponent api={apiKey} category="business" pageSize={6} setProgress={setProgress} /> },
-        { path: "/cricket", element: <NewsComponent api={apiKey} category="cricket" pageSize={6} setProgress={setProgress} /> },
-        { path: "/football", element: <NewsComponent api={apiKey} category="football" pageSize={6} setProgress={setProgress} /> },
-        { path: "/fashion", element: <NewsComponent api={apiKey} category="fashion" pageSize={6} setProgress={setProgress} /> },
+        { path: "/", element: <NewsComponent category="all" pageSize={6} setProgress={setProgress} /> },
+        { path: "/business", element: <NewsComponent category="business" pageSize={6} setProgress={setProgress} /> },
+        { path: "/entertainment", element: <NewsComponent category="entertainment" pageSize={6} setProgress={setProgress} /> },
+        { path: "/sports", element: <NewsComponent category="sports" pageSize={6} setProgress={setProgress} /> },
+        { path: "/technology", element: <NewsComponent category="technology" pageSize={6} setProgress={setProgress} /> },
       ],
     },
   ]);
