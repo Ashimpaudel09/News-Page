@@ -1,23 +1,21 @@
 const express = require("express");
 const axios = require("axios");
 const cors = require("cors");
-const path = require("path");
 require("dotenv").config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Enable CORS (mostly useful in development)
+// Enable CORS for all origins (for development)
 app.use(cors());
-
-// Serve static files from React app
-app.use(express.static(path.join(__dirname, "client", "build"))); // Adjust if needed
 
 app.get("/api/news", async (req, res) => {
   try {
     const { category = "general", page = 1, pageSize = 6 } = req.query;
+
     const categoryParam = category === "all" ? "general" : category;
 
+    // Build query params based on category
     const params = {
       country: "us",
       apiKey: process.env.NEWS_API_KEY,
@@ -25,6 +23,7 @@ app.get("/api/news", async (req, res) => {
       pageSize,
     };
 
+    // Only add category if it is one of NewsAPI valid categories
     const validCategories = [
       "business",
       "cricket",
@@ -39,20 +38,17 @@ app.get("/api/news", async (req, res) => {
     if (validCategories.includes(categoryParam)) {
       params.category = categoryParam;
     } else if (categoryParam !== "general") {
+      // For custom categories (like cricket, fashion) use q param
       params.q = categoryParam;
     }
 
     const response = await axios.get("https://newsapi.org/v2/top-headlines", { params });
+
     res.json(response.data);
   } catch (err) {
     console.error("NewsAPI error:", err.response?.data || err.message);
     res.status(500).json({ error: "Failed to fetch news" });
   }
-});
-
-// For any other route, send back React's index.html
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "client", "build", "index.html"));
 });
 
 app.listen(PORT, () => {
