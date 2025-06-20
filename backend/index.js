@@ -55,7 +55,7 @@ app.get("/api/news", async (req, res) => {
 
 // All remaining routes return the React app (for client-side routing)
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../frontend/build/index.html"));
+  res.sendFile(path.join(__dirname, "../my-news/build/index.html"));
 });
 
 // Start the server
