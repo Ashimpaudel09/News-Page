@@ -1,0 +1,44 @@
+.main-content {
+  margin-left: 220px;
+  padding: 1.5rem 2rem;
+  min-height: calc(100vh - 100px);
+  background: #f7f7f7;
+}
+
+.hero-section {
+  background: #e50914;
+  color: white;
+  padding: 2rem 1rem;
+  border-radius: 8px;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.hero-section h1 {
+  margin-bottom: 0.5rem;
+}
+
+.hero-section p {
+  margin: 0.2rem 0;
+  font-size: 1.1rem;
+}
+
+.cta {
+  font-weight: bold;
+  margin-top: 1rem;
+  font-size: 1.2rem;
+  color: #0f3057;
+}
+
+.section-title {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  color: #222;
+  font-weight: 700;
+}
+
+.news-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.5rem;
+}
